@@ -45,7 +45,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 				ax, ay, bx, by, cx, cy, dx, dy)
 		}
 	}
-	fmt.Println("</svg>")
+	fmt.Fprintf(w, "</svg>")
 }
 
 func corner(i, j int) (float64, float64) {
