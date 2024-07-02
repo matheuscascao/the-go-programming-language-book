@@ -6,15 +6,18 @@ import (
 	"io"
 	"os"
 	"unicode"
-	"unicode/utf8"
 )
 
 func main() {
-	counts := make(map[rune]int)
-	var utflen [utf8.UTFMax + 1]int
+	counts := map[string]int{
+		"letters": 0,
+		"numbers": 0,
+		"spaces": 0,
+		"punct": 0,
+		"symbols": 0,
+	}
 	
 	invalid := 0
-
 	in := bufio.NewReader(os.Stdin)
 	for {
 		r, n, err := in.ReadRune()
@@ -29,14 +32,22 @@ func main() {
 			invalid++
 			continue
 		}
-		counts[r]++	
-		utflen[n]++
-	}
-	fmt.Printf("rune\tcount\n")
-	for i, n := range utflen {
-		if i > 0 {
-			fmt.Printf("%d\t%d\n", i, n)
+		switch{
+		case unicode.IsLetter(r):
+			counts["letters"]++
+		case unicode.IsNumber(r):
+			counts["numbers"]++
+		case unicode.IsSpace(r):
+			counts["spaces"]++
+		case unicode.IsPunct(r):
+			counts["punct"]++
+		case unicode.IsSymbol(r):
+			counts["symbols"]++
 		}
+	}
+	fmt.Printf("type\tcount\n")
+	for i, n := range counts {
+		fmt.Printf("%s\t%d\n", i, n)
 	}
 	if invalid > 0 {
 		fmt.Printf("\n%d invalid UTF-8 characters\n", invalid)

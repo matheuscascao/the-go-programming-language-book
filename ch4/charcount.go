@@ -33,6 +33,12 @@ func main() {
 		utflen[n]++
 	}
 	fmt.Printf("rune\tcount\n")
+	for i, n := range counts {
+		if i > 0 {
+			fmt.Printf("%d\t%d\n", i, n)
+		}
+	}
+	fmt.Printf("len\tcount\n")
 	for i, n := range utflen {
 		if i > 0 {
 			fmt.Printf("%d\t%d\n", i, n)
